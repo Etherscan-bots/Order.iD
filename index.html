@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Address Lookup</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ethereum Address Lookup</h1>
+        <input type="text" id="ethAddress" placeholder="Enter Ethereum Address">
+        <button id="lookupButton">Lookup</button>
+        <div id="result">
+            <h2>Balance: <span id="balance"></span> ETH</h2>
+            <h3>Transactions:</h3>
+            <ul id="transactions"></ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
+    <script>
+        document.getElementById('lookupButton').addEventListener('click', async () => {
+            const address = document.getElementById('ethAddress').value;
+            const provider = new ethers.providers.EtherscanProvider(); // Use Etherscan API
+
+            try {
+                const balance = await provider.getBalance(address);
+                const balanceInEth = ethers.utils.formatEther(balance);
+                document.getElementById('balance').innerText = balanceInEth;
+
+                // Fetch transactions
+                const transactions = await provider.getHistory(address);
+                const transactionsList = document.getElementById('transactions');
+                transactionsList.innerHTML = ''; // Clear previous results
+
+                transactions.forEach(tx => {
+                    const listItem = document.createElement('li');
+                    listItem.innerText = `Hash: ${tx.hash}, Value: ${ethers.utils.formatEther(tx.value)} ETH`;
+                    transactionsList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error(error);
+                alert('Error fetching data. Please check the address and try again.');
+            }
+        });
+    </script>
+</body>
+</html>
