@@ -3,111 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereum Address Lookup</title>
+    <title>Bybit Wallet Lookup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
+        :root {
+            --primary: #8f6fff;
+            --primary-dark: #6c47d6;
+            --accent: #f5b940;
+            --background: #161625;
+            --card-bg: rgba(34, 34, 51, 0.96);
+            --glass: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.13);
+            --success: #37d67a;
+            --warning: #ffb600;
+            --white: #fff;
+            --muted: #b9b9c3;
+            --input-bg: #232340;
+            --input-border: #26264d;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+            --error: #f85a6a;
+        }
+
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 20px;
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--background);
+            color: var(--white);
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 400px;
+            background: var(--card-bg);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            padding: 38px 30px 28px 30px;
+            width: 380px;
+            max-width: 95vw;
             text-align: center;
+            border: 1.5px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-placeholder {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 60%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px auto;
+            font-size: 2rem;
+            color: var(--white);
+            font-weight: 700;
+            box-shadow: 0 2px 10px 0 rgba(143,111,255,0.16);
+            border: 3px solid var(--border);
+            letter-spacing: 2px;
+            user-select: none;
         }
 
         h1 {
-            color: #333;
+            color: var(--primary);
             margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        input {
-            padding: 10px;
-            margin: 10px 0;
+        input[type="text"] {
             width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 13px 14px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1.05rem;
+            outline: none;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: var(--primary);
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            width: 100%;
+            padding: 13px 0;
+            background: linear-gradient(90deg, var(--primary), var(--accent) 90%);
+            color: var(--white);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 1.08rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            box-shadow: 0 2px 12px 0 rgba(143, 111, 255, 0.12);
+            transition: background 0.3s, transform 0.09s;
+            margin-bottom: 2px;
+        }
+        button:hover, button:focus {
+            background: linear-gradient(90deg, var(--primary-dark), var(--accent) 80%);
+            transform: translateY(-1px) scale(1.02);
         }
 
-        button:hover {
-            background-color: #0056b3;
+        #wallet-info, #error-message {
+            margin-top: 22px;
+            animation: fadeIn 0.5s;
+            z-index: 2;
+            position: relative;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(24px);}
+            100% { opacity: 1; transform: translateY(0);}
         }
 
-        #result {
-            margin-top: 20px;
-            display: none;
+        .balance {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 8px;
+        }
+        .eth-label {
+            color: var(--muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-left: 2px;
+        }
+
+        #viewDetailsButton {
+            margin-top: 14px;
+            background: var(--glass);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            width: auto;
+            min-width: 120px;
+        }
+        #viewDetailsButton:hover {
+            background: var(--primary);
+            color: var(--white);
         }
 
         .details {
             display: none;
             margin-top: 20px;
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #e9ecef;
+            background: rgba(37,37,56,0.93);
+            padding: 16px 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            text-align: left;
+            font-size: 0.98rem;
+            color: var(--white);
+            box-shadow: 0 2px 10px 0 rgba(143,111,255,0.06);
+            animation: fadeIn 0.5s;
+        }
+        .details strong {
+            color: var(--accent);
         }
 
         .awaiting-deposit {
-            margin-top: 10px;
-            color: #ffc107; /* Warning color */
+            margin-top: 18px;
+            color: var(--warning);
+            background: rgba(255,182,0,0.04);
+            border-radius: 6px;
+            padding: 10px 0 7px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            animation: fadeIn 0.7s;
         }
 
-        .balance {
-            font-size: 24px;
-            font-weight: bold;
-            color: #28a745; /* Success color */
+        .tx-label {
+            color: var(--muted);
+            font-size: 0.99rem;
+        }
+
+        #error-message {
+            color: var(--error);
+            background: rgba(248,90,106,0.10);
+            border: 1px solid rgba(248,90,106,0.25);
+            border-radius: 8px;
+            padding: 20px 10px 18px 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 24px 5vw 22px 5vw;
+                width: 97vw;
+                min-width: 0;
+            }
+            h1 { font-size: 1.15rem; }
+            .balance { font-size: 1.25rem;}
+            .logo-placeholder { width: 48px; height: 48px; font-size: 1.3rem;}
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ethereum Address Lookup</h1>
+        <div class="logo-placeholder">LOGO</div>
+        <h1>Bybit Wallet Lookup</h1>
         <input type="text" id="ethAddress" placeholder="Enter Ethereum Address" value="0x1AD36967ab3811104d23C1C1d997AB5743843A4F">
         <button id="lookupButton">Lookup</button>
-        <div id="result">
-            <h2>Balance: <span class="balance" id="balance">81.86</span> ETH</h2>
+        
+        <div id="wallet-info" style="display:none;">
+            <div>
+                <span class="balance" id="balance">81.86</span> <span class="eth-label">ETH</span>
+            </div>
+            <div class="tx-label" id="shortAddr">Address: <span id="addressShort"></span></div>
             <button id="viewDetailsButton">View Details</button>
             <div id="transactionDetails" class="details">
-                <p>Dear User, you’ve successfully received <strong>81.86 ETH</strong> (approximately <strong>$200,000</strong>)</p>
-                <p>Transaction Time: <strong>${new Date().toLocaleString()}</strong></p>
-                <p>TXID: <strong>0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef</strong></p>
-                <p>From Address: <strong>0xabcdefabcdefabcdefabcdefabcdefabcdefabcdef</strong></p>
+                <p>Dear User, you’ve <strong>successfully received 81.86 ETH</strong> (approx. <strong>$200,000</strong>)</p>
+                <p>Transaction Time: <strong id="txTime"></strong></p>
+                <p>TXID: <strong>0x1234...cdef</strong></p>
+                <p>From Address: <strong>0xabcdef...ef</strong></p>
             </div>
-            <div class="awaiting-deposit">
-                <p>Awaiting deposit of <strong>$340</strong> in ETH.</p>
+            <div class="awaiting-deposit" id="awaitingDeposit">
+                Awaiting deposit of <strong>$340</strong> in ETH.
             </div>
+        </div>
+        <div id="error-message" style="display:none;">
+            Sorry, this transaction doesn’t belong to you.
         </div>
     </div>
     <script>
-        document.getElementById('lookupButton').addEventListener('click', () => {
-            // Simulate balance and transactions
-            document.getElementById('balance').innerText = "81.86";
-            document.getElementById('result').style.display = "block";
-            document.querySelector('.awaiting-deposit').style.display = "block";
+        // The only allowed address
+        const ALLOWED_ADDRESS = "0x1AD36967ab3811104d23C1C1d997AB5743843A4F".toLowerCase();
+        const lookupBtn = document.getElementById('lookupButton');
+        const walletInfo = document.getElementById('wallet-info');
+        const errorMsg = document.getElementById('error-message');
+        const details = document.getElementById('transactionDetails');
+        const viewDetailsBtn = document.getElementById('viewDetailsButton');
+        const ethAddress = document.getElementById('ethAddress');
+        const addressShort = document.getElementById('addressShort');
+        const txTime = document.getElementById('txTime');
+
+        // Helper to shorten ETH address
+        function shortenAddress(addr) {
+            if (!addr || addr.length < 10) return addr;
+            return addr.slice(0, 6) + "..." + addr.slice(-4);
+        }
+
+        lookupBtn.addEventListener('click', () => {
+            const userAddress = ethAddress.value.trim().toLowerCase();
+            if(userAddress === ALLOWED_ADDRESS) {
+                // Show wallet info
+                walletInfo.style.display = "block";
+                errorMsg.style.display = "none";
+                document.getElementById('balance').innerText = "81.86";
+                addressShort.innerText = shortenAddress(ethAddress.value.trim());
+                txTime.innerText = new Date().toLocaleString();
+                details.style.display = "none";
+                viewDetailsBtn.innerText = "View Details";
+                document.getElementById('awaitingDeposit').style.display = "block";
+            } else {
+                // Show error
+                walletInfo.style.display = "none";
+                errorMsg.style.display = "block";
+            }
         });
 
-        document.getElementById('viewDetailsButton').addEventListener('click', () => {
-            const details = document.getElementById('transactionDetails');
-            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        viewDetailsBtn.addEventListener('click', () => {
+            if (details.style.display === 'block') {
+                details.style.display = 'none';
+                viewDetailsBtn.innerText = "View Details";
+            } else {
+                details.style.display = 'block';
+                viewDetailsBtn.innerText = "Hide Details";
+            }
+        });
+
+        // Enter triggers Lookup
+        ethAddress.addEventListener('keydown', e => {
+            if(e.key === "Enter") lookupBtn.click();
+        });
+
+        // Autofill on load
+        window.addEventListener('DOMContentLoaded', () => {
+            addressShort.innerText = shortenAddress(ethAddress.value.trim());
+            txTime.innerText = new Date().toLocaleString();
         });
     </script>
 </body>
