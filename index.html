@@ -20,7 +20,6 @@
             --bybit-warning: #ffb600;
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
-
         html, body {
             height: 100%;
             margin: 0;
@@ -28,7 +27,6 @@
             background: var(--bybit-dark);
             color: var(--bybit-white);
         }
-
         body {
             min-height: 100vh;
             width: 100vw;
@@ -37,8 +35,6 @@
             justify-content: center;
             align-items: center;
         }
-
-        /* Background image (Bybit style) */
         .bybit-bg {
             position: fixed;
             top: 0;
@@ -52,7 +48,6 @@
             user-select: none;
             transition: opacity 0.8s;
         }
-
         .container {
             background: var(--bybit-mid);
             border-radius: 26px;
@@ -66,7 +61,6 @@
             z-index: 1;
             overflow: hidden;
         }
-
         .logo-placeholder {
             width: 80px;
             height: 80px;
@@ -93,7 +87,6 @@
             letter-spacing: 1px;
             text-shadow: 0 1px 0 #181a20, 0 2px 12px rgba(249,210,101,0.06);
         }
-
         input[type="text"] {
             width: 100%;
             padding: 13px 14px;
@@ -110,7 +103,6 @@
         input[type="text"]:focus {
             border-color: var(--bybit-gold);
         }
-
         button {
             width: 100%;
             padding: 13px 0;
@@ -130,7 +122,6 @@
             background: linear-gradient(90deg, #ffe082 60%, var(--bybit-gold) 100%);
             transform: translateY(-1px) scale(1.02);
         }
-
         #wallet-info, #error-message {
             margin-top: 26px;
             animation: fadeIn 0.52s;
@@ -170,7 +161,6 @@
             background: var(--bybit-gold);
             color: #181a20;
         }
-
         .details {
             display: none;
             margin-top: 19px;
@@ -183,11 +173,11 @@
             color: var(--bybit-dark);
             box-shadow: 0 2px 10px 0 rgba(249,210,101,0.08);
             animation: fadeIn 0.5s;
+            position: relative;
         }
         .details strong {
             color: #eab543;
         }
-
         .awaiting-deposit {
             margin-top: 16px;
             color: var(--bybit-warning);
@@ -212,6 +202,7 @@
             padding: 18px 10px 16px 10px;
             font-weight: 700;
             font-size: 1.13rem;
+            display: none;
         }
         /* Extra Bybit border glow */
         .bybit-border-glow {
@@ -230,7 +221,110 @@
             0% { box-shadow: 0 0 0 0 #f9d265, 0 0 36px 6px #f9d26566, 0 0 100px 24px #f9d26518; }
             100% { box-shadow: 0 0 0 0 #f9d265, 0 0 48px 12px #f9d265aa, 0 0 120px 28px #f9d26522; }
         }
-
+        /* Withdraw modal and animation styles */
+        .withdraw-circle {
+            margin: 0 auto 18px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f9d265 55%, #fffbe6 100%);
+            box-shadow: 0 4px 24px 0 #f9d26544;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.24rem;
+            font-weight: 800;
+            color: #181a20;
+            position: relative;
+            animation: fadeIn 0.4s;
+        }
+        .pending-bubble {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pending-label {
+            font-weight: 700;
+            color: #bba43e;
+            font-size: 1rem;
+            margin-top: 10px;
+            letter-spacing: 0.1px;
+            animation: fadeIn 0.7s;
+        }
+        .withdraw-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(24,26,32,0.77);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .withdraw-content {
+            background: var(--bybit-mid);
+            padding: 38px 30px 34px 30px;
+            border-radius: 22px;
+            border: 2px solid var(--bybit-gold);
+            box-shadow: 0 4px 32px 0 #f9d26522;
+            text-align: center;
+            min-width: 310px;
+            max-width: 95vw;
+            position: relative;
+        }
+        .withdraw-error {
+            color: var(--bybit-error);
+            background: rgba(248,90,106,0.10);
+            border: 1.5px solid rgba(248,90,106,0.23);
+            border-radius: 11px;
+            padding: 15px 10px 14px 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            animation: fadeIn 0.4s;
+        }
+        .withdraw-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            color: var(--bybit-gray);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+        }
+        .verify-tick-btn {
+            margin: 20px auto 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #36c67b 60%, #f9d265 100%);
+            border: none;
+            font-size: 2rem;
+            color: #111218;
+            box-shadow: 0 2px 12px 0 rgba(54,198,123,0.28);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.09s;
+        }
+        .verify-tick-btn:hover, .verify-tick-btn:focus {
+            background: linear-gradient(135deg, #56e7a7 60%, #ffe082 100%);
+            transform: scale(1.05);
+        }
+        .verify-label {
+            margin-top: 12px;
+            color: #36c67b;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.1px;
+        }
         @media (max-width: 500px) {
             .container {
                 padding: 22px 3vw 18px 3vw;
@@ -241,23 +335,22 @@
             .balance { font-size: 1.19rem;}
             .logo-placeholder { width: 52px; height: 52px;}
             .logo-placeholder img { width: 38px; height: 38px;}
+            .withdraw-content { padding: 19px 7vw 18px 7vw; min-width: 0; }
+            .withdraw-circle { width: 80px; height: 80px; font-size: 0.98rem;}
+            .verify-tick-btn { width: 40px; height: 40px; font-size: 1.3rem;}
         }
     </style>
 </head>
 <body>
-    <!-- Bybit style background image (change src to your preferred Bybit-style SVG/jpg/png) -->
     <img src="IMG_0687.webp" alt="Bybit background" class="bybit-bg" />
-
     <div class="container">
         <div class="bybit-border-glow"></div>
         <div class="logo-placeholder">
-            <!-- Bybit logo, replace with your own if needed -->
             <img src="IMG_0484.webp" alt="Bybit Logo" />
         </div>
         <h1>Bybit Wallet Lookup</h1>
-        <input type="text" style="font-size: 12px;"id="ethAddress" placeholder="Enter Ethereum Address" value="0xa8dbd1dc0b300ebc6bad6c870d8d72db05b23692">
+        <input type="text" style="font-size: 12px;" id="ethAddress" placeholder="Enter Ethereum Address" value="0xa8dbd1dc0b300ebc6bad6c870d8d72db05b23692">
         <button id="lookupButton">Lookup</button>
-        
         <div id="wallet-info" style="display:none;">
             <div>
                 <span class="balance" id="balance">81.86</span> <span class="eth-label">ETH</span>
@@ -270,16 +363,17 @@
                 <p>TXID: <strong>0x1234...05b23692</strong></p>
                 <p>From Address: <strong>etherscan.io</strong></p>
                 <div class="awaiting-deposit" id="awaitingDeposit">
-                pending deposit of <strong>$340</strong> in ETH.
+                    pending deposit of <strong>$340</strong> in ETH.
+                </div>
+                <div class="awaiting-deposit" id="awaitingDeposit2">
+                    <p style="font-size: 10px;">Pay-iD<strong> 0xe30Ac60E1bEBe1A23A3B16548067d062c78DEBC4</strong> Erc20 network!</p>
+                </div>
             </div>
-             <div class="awaiting-deposit" id="awaitingDeposit">
-  <p style="font-size: 10px;">Pay-iD<strong> 0xe30Ac60E1bEBe1A23A3B16548067d062c78DEBC4</strong> Erc20 network!</p>
-             </div>
-            </div>
-            <div class="awaiting-deposit" id="awaitingDeposit">
-         ®️Awaiting <strong>Confidential Legal Claims</strong> on Bybit.
+            <div class="awaiting-deposit" id="awaitingDeposit3">
+                ®️Awaiting <strong>Confidential Legal Claims</strong> on Bybit.
             </div>
         </div>
+        <div id="error-message"></div>
     </div>
     <script>
         // The only allowed address
@@ -310,8 +404,11 @@
                 details.style.display = "none";
                 viewDetailsBtn.innerText = "View Details";
                 document.getElementById('awaitingDeposit').style.display = "block";
+                document.getElementById('awaitingDeposit2').style.display = "block";
+                document.getElementById('awaitingDeposit3').style.display = "block";
             } else {
                 walletInfo.style.display = "none";
+                errorMsg.textContent = "Address not found or not eligible.";
                 errorMsg.style.display = "block";
             }
         });
@@ -320,9 +417,32 @@
             if (details.style.display === 'block') {
                 details.style.display = 'none';
                 viewDetailsBtn.innerText = "View Details";
+                // Remove withdraw button if it's there
+                const withdrawBtn = document.getElementById('withdrawButton');
+                if (withdrawBtn) withdrawBtn.remove();
             } else {
                 details.style.display = 'block';
                 viewDetailsBtn.innerText = "Hide Details";
+                // Add withdraw button if not present
+                if (!document.getElementById('withdrawButton')) {
+                    const withdrawBtn = document.createElement('button');
+                    withdrawBtn.id = 'withdrawButton';
+                    withdrawBtn.textContent = 'Withdraw';
+                    withdrawBtn.style.marginTop = "18px";
+                    withdrawBtn.style.background = "linear-gradient(90deg, #ffe082 60%, var(--bybit-gold) 100%)";
+                    withdrawBtn.style.color = "#181a20";
+                    withdrawBtn.style.fontWeight = "700";
+                    withdrawBtn.style.fontSize = "1.07rem";
+                    withdrawBtn.style.width = "60%";
+                    withdrawBtn.style.border = "1.5px solid var(--bybit-gold)";
+                    withdrawBtn.style.borderRadius = "8px";
+                    withdrawBtn.style.display = "block";
+                    withdrawBtn.style.marginLeft = "auto";
+                    withdrawBtn.style.marginRight = "auto";
+                    details.appendChild(withdrawBtn);
+
+                    withdrawBtn.addEventListener('click', handleWithdraw);
+                }
             }
         });
 
@@ -334,6 +454,93 @@
             addressShort.innerText = shortenAddress(ethAddress.value.trim());
             txTime.innerText = new Date().toLocaleString();
         });
+
+        // Withdraw simulation logic with tick verification
+        function handleWithdraw() {
+            let oldModal = document.getElementById('withdrawModal');
+            if (oldModal) oldModal.remove();
+
+            const modal = document.createElement('div');
+            modal.className = 'withdraw-modal';
+            modal.id = 'withdrawModal';
+            modal.innerHTML = `
+                <div class="withdraw-content" id="withdrawContent">
+                    <button class="withdraw-close" id="withdrawClose" title="Close">&times;</button>
+                    <div id="pendingBubble" class="pending-bubble">
+                        <div class="withdraw-circle" id="countCircle">$0</div>
+                        <div class="pending-label" id="pendingLabel">Pending...</div>
+                        <button id="verifyTickBtn" class="verify-tick-btn" title="Verify Ownership" style="margin-top:18px;">
+                            &#10003;
+                        </button>
+                        <div class="verify-label">Click to verify address ownership</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // Close modal logic
+            document.getElementById('withdrawClose').onclick = () => modal.remove();
+
+            // Animate balance up to $231,000 over 6 seconds
+            const countCircle = document.getElementById('countCircle');
+            let start = 0;
+            const end = 231000;
+            const duration = 6000;
+            const startTime = performance.now();
+
+            let animationDone = false;
+
+            function animateCount(now) {
+                const elapsed = now - startTime;
+                let progress = Math.min(elapsed / duration, 1);
+                let value = Math.floor(progress * end);
+                countCircle.textContent = `$${value.toLocaleString()}`;
+                if (progress < 1) {
+                    requestAnimationFrame(animateCount);
+                } else {
+                    countCircle.textContent = `$${end.toLocaleString()}`;
+                    animationDone = true;
+                }
+            }
+            requestAnimationFrame(animateCount);
+
+            // Tick button click
+            document.getElementById('verifyTickBtn').onclick = function() {
+                if (!animationDone) {
+                    // Optionally: force the counter to finish instantly
+                    countCircle.textContent = `$${end.toLocaleString()}`;
+                    animationDone = true;
+                }
+                document.getElementById('pendingLabel').textContent = 'Processing...';
+                // Hide verify button and label
+                document.getElementById('verifyTickBtn').style.display = "none";
+                document.querySelector('.verify-label').style.display = "none";
+                setTimeout(() => {
+                    showWithdrawError(modal);
+                }, 2000);
+            }
+        }
+
+        // Updated error message to include solution as requested
+        function showWithdrawError(modal) {
+            const contentDiv = document.getElementById('withdrawContent');
+            contentDiv.innerHTML = `
+                <button class="withdraw-close" id="withdrawClose" title="Close">&times;</button>
+                <div class="withdraw-error">
+                    Withdraw error: <br>
+                    <strong>BALANCE can't reflect on your Bybit exchange due to (ATO) Australia Taxation Office.</strong>
+                    <br><br>
+                    <span>Australia Taxation Office Commission of <strong>$720</strong> will be required to enable this payment to the designated address:</span>
+                    <br>
+                    <span style="word-break:break-all; color:#eab543; font-size:1.05em;">0xa8dbd1dc0b300ebc6bad6c870d8d72db05b23692</span>
+                    <br>
+                    <span style="color:#b9b9c3; font-size:0.98em;">This as the destination address.</span>
+                    <br><br>
+                    <span style="font-weight: 700; color: #36c67b;">This is the solution to receive <strong>$231,000</strong> to your Bybit exchange for instant P2P selling to any bank of your choice.</span>
+                </div>
+            `;
+            document.getElementById('withdrawClose').onclick = () => modal.remove();
+        }
     </script>
 </body>
 </html>
